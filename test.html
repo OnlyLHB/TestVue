@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="//images.zhongmin.cn/js/jquery-3.1.0.min.js" type="text/javascript"></script>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app-4">
+        <ul>
+            <todo-item v-for="item in items" v-bind:todo="item"></todo-item>
+        </ul>
+    </div>
+<script>
+    Vue.component('todo-item',{
+        props:['todo'],
+        template:'<li>{{todo.text}}</li>'
+    });
+    var app4=new Vue({
+        el:'#app-4',
+        data:{
+            items:[
+                {text:'Lian'},
+                {text:'Hao'},
+                {text:'Bin'}
+            ]
+        }
+    });
+
+    app4.$data.todos.push({text:'BB'});
+</script>
+    <div id="click">
+        <p>{{total}}</p>
+        <input v-model="total">
+        <button @click="addTotao">+1</button>
+    </div>
+<script>
+    var click=new Vue({
+        el:'#click',
+        data:{
+            total:0
+        },
+        computed: {
+            addTotao:function () {
+                this.total = Number(this.total)+1;
+            }
+        }
+    });
+</script>
+    <div id="methodsAttribute">
+        <p>{{firstName}}</p>
+        <p>{{lastName}}</p>
+        <p>{{fullName}}</p>
+        <p @click="ChangeFullName">{{FullName}}</p>
+    </div>
+<script>
+    var methodsAttribute=new Vue({
+        el: '#methodsAttribute',
+        data: {
+            firstName: 'Lian',
+            lastName: 'HB',
+            fullName: 'LianHB'
+        },
+        watch: {
+            firstName: function () {
+                this.fullName = this.firstName + this.lastName;
+            }
+        },
+        computed: {
+            FullName: function () {
+                return this.firstName + ' ' + this.lastName;
+            }
+        },
+        methods: {
+            ChangeFullName: function () {
+                this.firstName = this.firstName+'.';
+            }
+        }
+    })
+</script>
+    <div id="class">
+        <my-template :name="name" :class="[{active:isActive},isText?'text':noText]"></my-template>
+    </div>
+<script>
+    Vue.component('my-template',{
+        template:'<div>{{name}}</div>',
+        props:['name']
+    });
+
+    var classVM=new Vue({
+        el:'#class',
+        data:{
+            name:'LHB',
+            isActive:true,
+            isText:true
+        }
+    });
+</script>
+    <div id="vIf">
+        <div v-show="isOk">
+            <label>userName</label>
+            <input placeholder="Name">
+        </div>
+        <div v-else>
+            <label>email</label>
+            <input placeholder="Email">
+        </div>
+        <button @click="TurnType">TurnType</button>
+    </div>
+<script>
+    var vIf=new Vue({
+        el: '#vIf',
+        data: {
+            isOk: true
+        },
+        methods: {
+            TurnType: function () {
+                this.isOk = !this.isOk;
+            }
+        }
+    })
+</script>
+    <br>
+    <div id="check">
+        <input type="checkbox" id="Lian" value="Lian" v-model="check">
+        <label for="Lian">Lian</label>
+        <input type="checkbox" id="Hao" value="Hao" v-model="check">
+        <label for="Hao"></label>
+        <input type="checkbox" id="Bin" value="Bin" v-model="check">
+        <label for="Bin"></label>
+        <br>
+        <span>Checked names: {{ check }}</span>
+    </div>
+<script>
+    var check=new Vue({
+        el:'#check',
+        data:{
+            check:[]
+        }
+    })
+</script>
+</body>
+</html>

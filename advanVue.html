@@ -99,6 +99,7 @@
         }
     })
 </script>
+    <br>
     <div id="list-demo" class="demo">
         <button @click="add">Add</button>
         <button @click="remove">Remove</button>
@@ -123,7 +124,7 @@
                 this.items.splice(this.radomIndex(),0,this.nextNum++);
             },
             remove:function () {
-                this.items.splice(this.randomIndex(),1);
+                this.items.splice(this.radomIndex(),1);
             }
         }
     })
@@ -137,7 +138,8 @@
         transition:all 1s;
     }
     .list-enter,.list-leave-active{
-        
+        opacity:0;
+        transform:translateY(30px);
     }
 </style>
 </body>

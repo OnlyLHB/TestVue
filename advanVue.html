@@ -6,8 +6,33 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <script src="//images.zhongmin.cn/js/jquery-3.1.0.min.js" type="text/javascript"></script>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
 </head>
 <body>
-
+    <div id="demo">
+        <button @click="show=!show">
+            Toggle
+        </button>
+        <transition name="fade">
+            <p v-if="show">hello</p>
+        </transition>
+    </div>
+<script>
+    new Vue({
+        el:'#demo',
+        data:{
+            show:true
+        }
+    })
+</script>
+<style>
+    .fade-enter-active,.fade-leave-active{
+        transition:opacity .5s
+    }
+    .fade-enter,.fade-leave-active{
+        opacity:0
+    }
+</style>
 </body>
 </html>

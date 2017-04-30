@@ -10,6 +10,7 @@
     <script src="https://unpkg.com/vue/dist/vue.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.3/velocity.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.14.1/lodash.min.js"></script>
+    <script src="https://unpkg.com/tween.js@16.3.4"></script>
 </head>
 <body>
     <div id="demo">
@@ -169,5 +170,35 @@
         transition:transform 1s;
     }
 </style>
+    <div id="animated-number-demo">
+        <input v-mode.number="number" type="number" step="20">
+        <p>{{animatedNumber}}</p>
+    </div>
+<script>
+    var animatedNumberDemo=new Vue({
+        el:'#animated-number-demo',
+        date:{
+            number:0,
+            animatedNumber:0
+        },
+        watch:{
+            number:function (newValue,oldValue) {
+                var vm=this;
+                function animate(time) {
+                    requestAnimationFrame(animate);
+                    TWEEN.update(time)
+                }
+                new TWEEN.Tween({tweeningNumber:oldValue})
+                    .easing(TWEEN.Easing.Quadratic.Out)
+                    .to({tweeningNumber:newValue},500)
+                    .onUpdate(function () {
+                        vm.animatedNumber=this.tweeningNumber.toFixed(0);
+                    })
+                    .start();
+                animate();
+            }
+        }
+    })
+</script>
 </body>
 </html>

@@ -171,15 +171,15 @@
     }
 </style>
     <div id="animated-number-demo">
-        <input v-mode.number="number" type="number" step="20">
+        <input v-model.number="number" type="number" step="20">
         <p>{{animatedNumber}}</p>
     </div>
 <script>
     var animatedNumberDemo=new Vue({
         el:'#animated-number-demo',
-        date:{
-            number:0,
-            animatedNumber:0
+        data:{
+            number:10,
+            animatedNumber:10
         },
         watch:{
             number:function (newValue,oldValue) {
@@ -196,6 +196,68 @@
                     })
                     .start();
                 animate();
+            }
+        }
+    })
+</script>
+    <div id="example-8">
+        <input v-model.number="firstNumber" type="number" step="20">+
+        <input v-model.number="secondNumber" type="number" step="20">=
+        {{result}}
+        <p>
+            <animated-integer :value="firstNumber"></animated-integer>+
+            <animated-integer :value="secondNumber"></animated-integer>=
+            <animated-integer :value="result"></animated-integer>
+        </p>
+    </div>
+<script>
+    Vue.component('animated-integer',{
+        template:'<span>{{tweeningValue}}</span>',
+        props:{
+            value:{
+                type:Number,
+                required:true
+            }
+        },
+        data:function () {
+            return {
+                tweeningValue:0
+            }
+        },
+        watch:{
+            value:function (newValue,oldValue) {
+                this.tween(oldValue,newValue);
+            }
+        },
+        mounted:function () {
+            this.tween(0,this.value);
+        },
+        methods:{
+            tween:function (startValue,endValue) {
+                var vm=this;
+                function animate(time) {
+                    requestAnimationFrame(animate);
+                    TWEEN.update(time);
+                }
+                new TWEEN.Tween({tweeningValue:startValue})
+                    .to({tweeningValue:endValue},500)
+                    .onUpdate(function () {
+                        vm.tweeningValue=this.tweeningValue.toFixed(0);
+                    })
+                    .start();
+                animate();
+            }
+        }
+    })
+    var example8=new Vue({
+        el:'#example-8',
+        data:{
+            firstNumber:20,
+            secondNumber:40
+        },
+        computed:{
+            result:function () {
+                return this.firstNumber+this.secondNumber;
             }
         }
     })
